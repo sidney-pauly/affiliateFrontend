@@ -9,7 +9,7 @@
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
-    "dev-debug": "cross-env NODE_ENV=development nodemon frontend/server/index.js --watch server"
+    "dev-debug": "node --debug node_modules/.bin/nuxt"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",
