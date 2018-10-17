@@ -8,14 +8,13 @@
       <br>
 
       <div v-if="!$store.state.productFilterLoading" class="row">
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 col" v-for="product in $store.state.products">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 col" v-for="product in $store.state.products" :key="product._id + '' + product.__v">
           <Product :productData="product"  />
         </div>
       </div>
       <div v-else>
         <h2>Loading ...</h2>
       </div>
-
     </div>
   </div>
 </template>
@@ -24,10 +23,19 @@
 import Product from '@/components/products/Product.vue'
 import ProductFilter from '@/components/products/ProductFilter.vue'
 
+
 export default {
   components: {
     Product,
     ProductFilter
+  },
+  data () {
+    return {
+      socket: ''
+    }
+  },
+  methods: {
+
   }
 }
 </script>

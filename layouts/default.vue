@@ -1,5 +1,20 @@
 <template>
   <div class="">
+    
+    <!-- GDPR opt in -->
+    <b-alert variant="secondary" dismissible :show="$store.state.showGDPR" @dismissed="$store.state.showGDPR=false">
+
+      <h4 class="alert-heading">Cookies akzeptieren?</h4>
+      <div class="row">
+        <div class=" col-md-8">
+          <p>Cookies werden benötigt um die Ladezeiten zu verkürzen.  </p>
+        </div>
+        <div class=" col-md-4 text-right">
+          <button type="button" class="btn btn-dark text-right" @click="GDPR">Akzeptieren</button>
+        </div>
+      </div> 
+    </b-alert> 
+
     <b-navbar toggleable="md" type="dark" variant="info">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -12,15 +27,12 @@
           <b-nav-item to="/products">Search products</b-nav-item>
         </b-navbar-nav>
 
-        <!-- Right aligned nav items -->
+        
         <b-navbar-nav class="ml-auto">
 
-          <b-nav-form>
-            <b-form-group>
-              <b-form-input v-model="filter.query" type="text" placeholder="Product Name"/>
-              <b-btn type="button" name="button" @click="filterProducts" variant="secondary">Search Produts</b-btn>
-            </b-form-group>
-          </b-nav-form>
+          <no-ssr>
+            <ProductFilter  :nav="true"></ProductFilter>
+          </no-ssr>
 
         </b-navbar-nav>
 
@@ -31,22 +43,20 @@
 </template>
 
 <script>
+import ProductFilter from '@/components/products/ProductFilter.vue'
 
 export default {
-  data () {
-    return {
-      filter: {}
-    }
+  components: {
+    ProductFilter
   },
   methods: {
-    filterProducts: function(){
-      if(this.filter.query){
-        this.$store.dispatch('getProducts', this.filter)
-        this.$nuxt.$router.replace({ path: '/products' })
-      }
+    GDPR: function(){
+      this.$store.state.showGDPR = false;
+      this.$store.state.cookies = true;
     }
   }
 }
+
 </script>
 
 <style>
