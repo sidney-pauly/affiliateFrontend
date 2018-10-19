@@ -5,7 +5,8 @@ const createStore = () => {
   return new Vuex.Store({
     state: () => ({
       productFilter: {
-        query: ''
+        query: '',
+        maxResults: 20
       },
       products: [],
       productFilterLoading: false,
@@ -34,7 +35,7 @@ const createStore = () => {
       context.commit('updateProductFilterLoading', true);
 
       //Fetch data from backend
-      return axios.get('http://localhost:3001/affilinet?' + 'query=' + productFilter.query)
+      return axios.get('http://localhost:3001/searchProducts?' + 'query=' + productFilter.query)
       .then((res) => {
         context.commit('updateAllProducts', res.data);
         context.commit('updateProductFilterLoading', false);

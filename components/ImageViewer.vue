@@ -2,14 +2,14 @@
   <div class="">
     <div class="row">
       <div class="col">
-        <img :src="Images[CurrentImage]" class="dynamic-img mx-auto d-block" />
+        <img :src="Images[CurrentImage].URL" class="dynamic-img mx-auto d-block" />
       </div>
 
     </div>
     <div class="row text-center">
       <div class="col">
         <div class="btn-group" role="group">
-          <button class="btn" v-for="(image, i) in Images" @click="CurrentImage = i" pressed="CurrentImage === i">{{i+1}}</button>
+          <button class="btn" v-for="(image, i) in Images" @click="CurrentImage = i" :pressed="CurrentImage === i">{{i+1}}</button>
         </div>
       </div>
     </div>

@@ -7,17 +7,19 @@
       <div class="col text-left">
 
         <table>
-          <tr>
-            <td>Preis:</td>
-            <td>  {{listingData.DisplayPrice}}</td>
-          </tr>
-          <tr>
-            <td>Versand:</td>
-            <td>  {{listingData.DisplayShipping}}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Preis:</td>
+              <td>  {{listingData.DisplayPrice}}</td>
+            </tr>
+            <tr>
+              <td>Versand:</td>
+              <td>  {{listingData.DisplayShipping}}</td>
+            </tr>
+          </tbody>
         </table>
 
-        <b-button :href="listingData.Deeplink" block="true">Zum Shop</b-button>
+        <b-button target="_blank" rel="noopener noreferrer" :href="listingData.Deeplink" :block="true">Zum Shop</b-button>
       </div>
     </div>
     <br>
