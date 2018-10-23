@@ -7,9 +7,9 @@
       <br>
       <br>
 
-      <div v-if="!$store.state.productFilterLoading" class="row">
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col" v-for="product in $store.state.products" :key="product._id + '' + product.__v" >
-          <Product :productData="product"  v-if="product.Listings[0].Images[0]"/>
+      <div v-if="!loading" class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col" v-for="product in products" :key="product._id + '' + product.__v" >
+          <Product :productData="product"  />
         </div>
       </div>
       <div v-else>
@@ -22,6 +22,7 @@
 <script>
 import Product from '@/components/products/Product.vue'
 import ProductFilter from '@/components/products/ProductFilter.vue'
+import { mapState } from 'vuex'
 
 
 export default {
@@ -29,6 +30,12 @@ export default {
     Product,
     ProductFilter
   },
+  computed: mapState({
+
+    loading: state => state.productFilter.loading,
+    products: state => state.productFilter.products
+
+  }),
   methods: {
 
   }

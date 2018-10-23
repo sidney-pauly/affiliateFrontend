@@ -1,18 +1,19 @@
 import Vuex from 'vuex'
 import axios from 'axios'
+import socket from './modules/socket'
+import productFilter from './modules/productFilter'
 
 const createStore = () => {
   return new Vuex.Store({
+    modules: {
+      socket,
+      productFilter
+    },
     state: () => ({
-      productFilter: {
-        query: '',
-        maxResults: 20
-      },
-      products: [],
-      productFilterLoading: false,
+      categories: [],
       cookies: false,
-      showGDPR: true,
-      socket: '' //the io socket
+      showGDPR: true
+
     }),
     mutations: {
       updateProductFilter (state, payload){
@@ -26,6 +27,12 @@ const createStore = () => {
       },
       updateProductFilterLoading (state, payload){
         state.productFilterLoading = payload;
+      },
+      updateAllCategories (state, payload){
+        state.categories = payload;
+      },
+      pushCategorie (state, payload){
+        state.categories.push(payload);
       }
     },
     actions: {
@@ -45,7 +52,20 @@ const createStore = () => {
         console.log(e);
       })
 
-      }
+      },
+      getCategories (context, filter){
+  
+        //Fetch data from backend
+        return axios.get('http://localhost:3001/categories')
+        .then((res) => {
+          context.commit('updateAllCategories', res.data);
+          return res.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+  
+        }
         
     }
   })

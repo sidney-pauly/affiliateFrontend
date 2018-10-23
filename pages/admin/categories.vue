@@ -172,6 +172,9 @@ export default {
     },
     append: function() {
       var vm = this;
+
+    vm.categoryTree = [];
+
       vm.$store.state.socket.emit("appendCategory", {
         Category2: { _id: vm.selected[0] },
         Category1: { _id: vm.selected[1] }
@@ -219,7 +222,7 @@ export default {
       });
 
       vm.$store.state.socket.on("categoryChanged", function(data, final) {
-        var changedCatI = vm.categories.findIndex(c => (c._id = data._id));
+        var changedCatI = vm.categories.findIndex(c => (c._id == data._id));
         vm.categories[changedCatI] = data;
         if (final) {
           vm.buildTree();

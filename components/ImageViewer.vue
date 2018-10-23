@@ -2,7 +2,7 @@
   <div class="">
     <div class="row">
       <div class="col">
-        <img :src="Images[CurrentImage].URL" class="dynamic-img mx-auto d-block" />
+        <img v-if="Images[CurrentImage]" :src="Images[CurrentImage].URL" class="dynamic-img mx-auto d-block" />
       </div>
 
     </div>
@@ -24,6 +24,13 @@ export default {
   data () {
     return {
       CurrentImage: 0
+    }
+  },
+  watch: {
+    Images: function(){
+      if(this.Images.length === 0){
+        this.Images.push({URL: "https://via.placeholder.com/500.png?text=Kein+bild+vorhanden"})
+      }
     }
   }
 }
