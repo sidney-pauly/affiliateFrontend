@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <br>
       <br>
-      <ProductFilter/>
+      <ProductFilter includeChildren/>
       <br>
       <br>
 

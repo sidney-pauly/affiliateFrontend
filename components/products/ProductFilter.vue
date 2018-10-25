@@ -1,46 +1,74 @@
 <template lang="html">
-  <div class="">
-    <div class="container">
-      <b-input-group>
-      <b-form-input v-model="$store.state.productFilter.filter.query" type="text" placeholder="Produktname"/>
-    <b-input-group-append>
-      <b-btn variant="white" @click="search" v-if="nav">Suchen</b-btn>
-    </b-input-group-append>
-  </b-input-group>
-  
-  <div class="text-center" v-if="!nav">
+  <div class="p-3 container">
 
-    <b-input-group size="sm" prepend="Max Ergebnise">
-      <b-form-input v-model="$store.state.productFilter.filter.maxResults" type="number" placeholder="Anzahl"/>
-    </b-input-group>
+        <b-input-group>
+          <b-form-input v-model="$store.state.productFilter.filter.query" type="text" placeholder="Produktname"/>
+        </b-input-group>
 
-    <br>
+           
+      <div class="text-dark">
+        <br>
+        <b-btn v-b-toggle.collapse1 variant="outline-light" block class="text-left">Erweiterte Suche</b-btn>
+        <b-collapse id="collapse1" class="mt-2">
+          <b-card>
+            
+            <div class="divider p-2">
+              <b-input-group size="sm" prepend="Max Ergebnise">
+              <b-form-input v-model="$store.state.productFilter.filter.maxResults" type="number" placeholder="Anzahl"/>
+            </b-input-group>
+              </div>
+            
+              
+           <br>
 
-    <b-btn variant="white" block @click="search">Suchen</b-btn>
+            <div class="text-center p-2" >
+              <categoryFilter :maxSelected="5000" @selected="modifySelected" :includeChildren="includeChildren"/>
+            </div>
+
+          </b-card>
+        </b-collapse>
+
+      </div>
+      
+
+      
+
+      <br>
+      <b-btn variant="white" block @click="search">Suchen</b-btn>
+      
     </div>
-  </div>
 
-  </div>
+
+
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import categoryFilter from '@/components/categories/CategoryFilter'
 
 export default {
   props: {
-    nav: {
-      type: Boolean,
-      default: false
+    includeChildren: {
+      type: Boolean
     }
+  },
+  components: {
+    categoryFilter
   },
   methods: {
     search: function(){
       this.$store.dispatch('productFilter/filterProducts')
-      this.$nuxt.$router.replace({ path: '/products' })
+    },
+    modifySelected: function(selected){
+      this.$store.state.productFilter.filter.categories = selected;
     }
   }
 }
 </script>
 
 <style lang="css">
+  .lim-height{
+
+    max-height: 15vh;
+  }
 </style>

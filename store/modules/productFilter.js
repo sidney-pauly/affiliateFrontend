@@ -8,7 +8,8 @@ const state = {
         query: '',
         maxResults: 20,
         fast: false,
-        category: undefined
+        category: undefined,
+        categories: []
       },
       products: [],
       loading: false

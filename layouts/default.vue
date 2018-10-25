@@ -31,7 +31,7 @@
         <b-navbar-nav class="ml-auto">
 
           <no-ssr>
-            <ProductFilter  :nav="true"></ProductFilter>
+            <simpleProductFilter  :nav="true" />
           </no-ssr>
 
         </b-navbar-nav>
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import ProductFilter from '@/components/products/ProductFilter.vue'
+import simpleProductFilter from '@/components/products/simpleProductFilter.vue'
 
 export default {
   components: {
-    ProductFilter
+    simpleProductFilter
   },
   methods: {
     GDPR: function(){
