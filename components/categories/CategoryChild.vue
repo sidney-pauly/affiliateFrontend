@@ -64,19 +64,18 @@ export default {
         category.selected = newSelected;
 
         if (this.includeChildren) {
-          selectChildren(vm.category);
+          selectChildren(category);
         } else {
           vm.$emit("selected", { id: category._id, value: newSelected });
         }
 
         function selectChildren(cat) {
           vm.$emit("selected", { id: cat._id, value: newSelected });
+          cat.selected = newSelected;
           cat.Childs.forEach(c => {
-            c.selected = newSelected;
             selectChildren(c);
           });
         }
-
         this.$emit("treeChanged", category);
       }
     },
@@ -92,7 +91,6 @@ export default {
       );
 
       category.Childs[childIndex] = childCategory;
-
       this.$emit("treeChanged", category);
     }
   }

@@ -12,8 +12,8 @@
         </div>
 
         <div :class="{ 'lim-height': !admin, 'lim-height-admin': admin}">
-            <div v-for="cc in filteredCategoryTree" :key="cc._id">
-                <categoryChild  :category="cc" @treeChanged="modifyTree" @selected="modifySelected" :includeChildren="includeChildren" :leftSelected="maxSelected-selected.length"/>
+            <div v-for="(cc, i) in filteredCategoryTree" :key="cc._id">
+                <categoryChild  :category="filteredCategoryTree[i]" @treeChanged="modifyTree" @selected="modifySelected" :includeChildren="includeChildren" :leftSelected="maxSelected-selected.length"/>
             </div>
         </div>
 
@@ -48,8 +48,8 @@ export default {
     keyword: function() {
       this.filterCategoryTree();
     },
-    clear (){
-        this.clearSelection()
+    clear() {
+      this.clearSelection();
     }
   },
   methods: {
@@ -57,48 +57,71 @@ export default {
       getCategories: "categories/getCategories"
     }),
     modifySelected: function(data) {
-      if(data.value){
-        this.selected.push(data.id)
+      if (data.value) {
+        this.selected.push(data.id);
       } else {
-        
-        var i = this.selected.findIndex(s => s === data.id)
-          this.selected.splice(i, 1)
-        
+        var i = this.selected.findIndex(s => s === data.id);
+        this.selected.splice(i, 1);
       }
 
-      this.$emit('selected', this.selected)
+      this.$emit("selected", this.selected);
     },
     //Clears the selection and reloads the product tree
-    clearSelection (){
-      this.selected = []
+    clearSelection() {
+      this.selected = [];
 
-      this.categoryTree.forEach(function(c){
-        unselectChildren(c)
-      })
-      
-      function unselectChildren (category){
+      this.categoryTree.forEach(function(c) {
+        unselectChildren(c);
+      });
+
+      function unselectChildren(category) {
         category.selected = false;
-        category.Childs.forEach(function(c){
+        category.Childs.forEach(function(c) {
           unselectChildren(c);
-        })
+        });
       }
-
 
       this.filterCategoryTree();
     },
-    modifyTree (childCategory){
+    modifyTree(childCategory) {
       var vm = this;
-      
-      var childIndex = vm.categoryTree.findIndex(c => c._id == childCategory._id);
-      
-      //Modify tree and pass it to sub Categories
-      this.$set(vm.categoryTree, childIndex, childCategory)
-      vm.filterCategoryTree()
 
-      
+      function findChild(cat) {
+        var childIndex = cat.Childs.findIndex(c => c._id == childCategory._id);
+        if (childIndex != -1) {
+          cat.Childs[childIndex] = childCategory;
+          return true;
+        } else {
+          return cat.Childs.some(c => {
+            return findChild(c);
+          });
+        }
+      }
+
+      var childIndex = vm.categoryTree.findIndex(
+        c => c._id == childCategory._id
+      );
+
+
+      if (childIndex >= 0) {
+
+        this.$set(vm.categoryTree, childIndex, childCategory);
+
+      } else {
+
+        vm.categoryTree.forEach((c, i) => {
+          if (findChild(c)) {
+            childIndex = i;
+          }
+        });
+
+      }
+
+      //Modify tree
+      vm.filterCategoryTree();
     },
     filterCategoryTree: function(tree) {
-      if(tree){
+      if (tree) {
         this.categoryTree = tree;
       }
 
@@ -109,8 +132,8 @@ export default {
         var regex = new RegExp(vm.keyword, "i");
         var filtered = [];
 
-        vm.categoryTree.forEach(function(c) {
-          testCategory(c)
+        vm.categoryTree.forEach(c => {
+          testCategory(c);
         });
 
         function testCategory(c) {
@@ -118,14 +141,14 @@ export default {
           if (match) {
             filtered.push(c);
           } else {
-            var cats = vm.$store.state.categories.categories.filter(cat => {
+            var cats = c.Childs.filter(cat => {
               return cat.Parent == c._id && !cat.Link;
             });
             return cats.forEach(ca => {
               testCategory(ca);
             });
           }
-        }
+        } 
 
         vm.filteredCategoryTree = filtered;
       }
@@ -146,19 +169,15 @@ export default {
 
 <style lang="scss" scoped>
 div.lim-height {
-
-
   overflow-y: scroll;
 }
 div.lim-height-admin {
-
   height: 75vh;
 
   overflow-y: scroll;
 }
 div.wrap {
-    height: 25vh;
+  height: 25vh;
 }
-
 </style>
 

@@ -53,7 +53,7 @@ const actions = {
             state.loading = true;
 
             //Fetch data from backend
-            return axios.get(config.apiURL + '/searchProducts' +'?query=' + state.filter.query)
+            return axios.post(config.apiURL + '/searchProducts', state.filter)
             .then((res) => {
                 state.products = res.data;
                 state.loading = false;
