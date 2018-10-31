@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="p-3 container">
 
-        <b-input-group>
-          <b-form-input v-model="$store.state.productFilter.filter.query" type="text" placeholder="Produktname"/>
+        <b-input-group @keyup.enter="search">
+          <b-form-input v-model="$store.state.productFilter.filter.query" type="text" placeholder="Produktname" />
         </b-input-group>
 
            
@@ -14,7 +14,7 @@
             
             <div class="divider p-2">
               <b-input-group size="sm" prepend="Max Ergebnise">
-              <b-form-input v-model="$store.state.productFilter.filter.maxResults" type="number" placeholder="Anzahl"/>
+              <b-form-input v-model="$store.state.productFilter.filter.maxResults" type="number" placeholder="Anzahl" @keyup.enter="search"/>
             </b-input-group>
               </div>
             

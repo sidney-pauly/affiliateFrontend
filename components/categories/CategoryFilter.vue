@@ -1,6 +1,5 @@
 <template>
-    <div class="wrap text-left">
-
+    <div class="text-left">
 
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Kategorie suchen" aria-label="name" v-model="keyword">
@@ -11,7 +10,7 @@
           <button class="btn btn-danger" @click="clearSelection">Auswahl aufheben</button>
         </div>
 
-        <div :class="{ 'lim-height': !admin, 'lim-height-admin': admin}">
+        <div :class=" !admin ? 'lim-height': 'lim-height-admin'">
             <div v-for="(cc, i) in filteredCategoryTree" :key="cc._id">
                 <categoryChild  :category="filteredCategoryTree[i]" @treeChanged="modifyTree" @selected="modifySelected" :includeChildren="includeChildren" :leftSelected="maxSelected-selected.length"/>
             </div>
@@ -170,10 +169,11 @@ export default {
 <style lang="scss" scoped>
 div.lim-height {
   overflow-y: scroll;
+  max-height: 20vh;
 }
 div.lim-height-admin {
-  height: 75vh;
-
+  
+  max-height: 70vh;
   overflow-y: scroll;
 }
 div.wrap {

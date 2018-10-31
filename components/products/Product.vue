@@ -1,10 +1,10 @@
 <template lang="html">
 
 <div class="card text-center mb-3 text-dark w-100 h-100" @click="redirect">
-  <div class="card-header h-100" v-if="productData.Listings[lsitingBiggestImage]">
+  <div class="card-header h-100 big-header bg-white" v-if="productData.Listings[lsitingBiggestImage]">
     <b-img-lazy v-if="productData.Listings[lsitingBiggestImage].Images[biggestImage]" center  :src="productData.Listings[lsitingBiggestImage].Images[biggestImage].URL"  fluid-grow />
   </div>
-  <div class="card-body align-bottom bg-white">
+  <div class="card-body align-bottom bg-light">
     <h5 class="card-title">{{productData.Title}}</h5>
     <p class="card-text">Preis: {{getPriceRange()}}
     </p>
@@ -76,7 +76,7 @@ export default {
 <style lang="scss" scoped>
 @import "~bootstrap/scss/bootstrap";
 
-div.card-header {
+div.big-header {
   @include media-breakpoint-up(xs) {
     max-height: 500px;
   }
@@ -91,6 +91,26 @@ div.card-header {
   }
   @include media-breakpoint-up(xl) {
     max-height: 500px;
+  }
+  z-index: 0;
+  overflow: hidden;
+}
+
+div.small-header {
+  @include media-breakpoint-up(xs) {
+    max-height: 125px;
+  }
+  @include media-breakpoint-up(sm) {
+    max-height: 135px;
+  }
+  @include media-breakpoint-up(md) {
+    max-height: 145px;
+  }
+  @include media-breakpoint-up(lg) {
+    max-height: 155px;
+  }
+  @include media-breakpoint-up(xl) {
+    max-height: 165px;
   }
   z-index: 0;
   overflow: hidden;

@@ -21,7 +21,7 @@ const mutations = {
 
 // actions
 const actions = {
-    async validateSocket ({state, commit, rootState}) {
+    async validateSocket ({state, commit, rootState, dispatch}) {
          
 
         //Check if cookies are enabled (socket.io needs them)
@@ -29,11 +29,18 @@ const actions = {
             return false
         } else {
 
-            //Create to socket if there is none
+            //Create socket if there is none
             if(state.socket){
                 return true
             } else {
                 commit('setSocket', await io.connect(config.socketURL));
+
+                if (!state.socket._callbacks.$errorMsg) {
+                    state.socket.on("errorMsg", function (data) {
+                        dispatch('setStatus', data, { root: true })
+                    });
+                }
+
                 return true
             }
             

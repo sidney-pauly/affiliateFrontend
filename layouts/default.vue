@@ -1,44 +1,76 @@
 <template>
-  <div class="">
+  <div >
     
-    <!-- GDPR opt in -->
-    <b-alert variant="secondary" dismissible :show="$store.state.showGDPR" @dismissed="$store.state.showGDPR=false">
+    <div class="sticky-top">
+      <b-navbar toggleable="md" type="dark" variant="info" >
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <h4 class="alert-heading">Cookies akzeptieren?</h4>
-      <div class="row">
-        <div class=" col-md-8">
-          <p>Cookies werden benötigt um die Ladezeiten zu verkürzen.  </p>
-        </div>
-        <div class=" col-md-4 text-right">
-          <button type="button" class="btn btn-dark text-right" @click="GDPR">Akzeptieren</button>
-        </div>
-      </div> 
-    </b-alert> 
+        <b-navbar-brand to="/">{{$store.state.website.title}}</b-navbar-brand>
 
-    <b-navbar toggleable="md" type="dark" variant="info">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <b-collapse is-nav id="nav_collapse">
 
-      <b-navbar-brand to="/">Vergleichsseite</b-navbar-brand>
+          <b-navbar-nav>
+            <b-nav-item to="/">Home</b-nav-item>
+            <b-nav-item to="/products">Produkte suchen</b-nav-item>
+          </b-navbar-nav>
 
-      <b-collapse is-nav id="nav_collapse">
+          
+          <b-navbar-nav class="ml-auto">
 
-        <b-navbar-nav>
-          <b-nav-item to="/">Home</b-nav-item>
-          <b-nav-item to="/products">Search products</b-nav-item>
-        </b-navbar-nav>
+            <no-ssr>
+              <simpleProductFilter  :nav="true" />
+            </no-ssr>
 
-        
-        <b-navbar-nav class="ml-auto">
+          </b-navbar-nav>
 
-          <no-ssr>
-            <simpleProductFilter  :nav="true" />
-          </no-ssr>
+        </b-collapse>
+      </b-navbar>
 
-        </b-navbar-nav>
+      <!-- GDPR opt in -->
+      <b-alert 
+      variant="secondary" 
+      dismissible 
+      :show="$store.state.showGDPR" 
+      @dismissed="$store.state.showGDPR=false"
+      >
 
-      </b-collapse>
-    </b-navbar>
+        <h4 class="alert-heading">Cookies akzeptieren?</h4>
+        <div class="row">
+          <div class=" col-md-8">
+            <p>Cookies werden benötigt um die Ladezeiten zu verkürzen.  </p>
+          </div>
+          <div class=" col-md-4 text-right">
+            <button type="button" class="btn btn-dark text-right" @click="GDPR">Akzeptieren</button>
+          </div>
+        </div> 
+      </b-alert> 
+
+      <b-alert
+      :variant="$store.state.status.type"
+      dismissible
+      :show="$store.state.status.text.length > 0"
+      @dismissed="$store.state.status.text = ''">
+        <h4 class="alert-heading">{{$store.state.status.text}}</h4>
+        <b-btn v-if="$store.state.status.code == 403" class="btn" to="/login" @click="$store.state.status.text = ''">Login</b-btn>
+      </b-alert>
+    </div>
+    
     <nuxt/>
+
+    <!-- Bottom disclamers and crawler info -->
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="/products/all">Alle Produkte</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/products/all">Impressum</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/products/all">Datenschutz</a>
+      </li>
+    </ul>
+    <br>
+    <br>
   </div>
 </template>
 

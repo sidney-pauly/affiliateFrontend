@@ -17,23 +17,23 @@ const getters = {
 
 // mutations
 const mutations = {
-    
-        incrementVersion(state, payload){
-            state.version++;
-        },
-        setCategoryTree(state, payload){
-            state.categoryTree = payload;
-        }
-    
+
+    incrementVersion(state, payload) {
+        state.version++;
+    },
+    setCategoryTree(state, payload) {
+        state.categoryTree = payload;
+    }
+
 }
 
 // actions
 const actions = {
     async validateSocket({ state, dispatch, rootState, commit }) {
 
-        if(await dispatch('socket/validateSocket', null, { root: true })){
+        if (await dispatch('socket/validateSocket', null, { root: true })) {
             //Define what happens when a category is recived
-            
+
             if (!rootState.socket.socket._callbacks.$categories) {
                 rootState.socket.socket.on("categories", function (data) {
                     state.categories = data;
@@ -47,7 +47,7 @@ const actions = {
                     state.categories[changedCatI] = data;
                     if (final) {
                         dispatch('buildTree')
-                    } 
+                    }
                 });
             }
 
@@ -70,8 +70,9 @@ const actions = {
                 });
             }
 
+
             return true;
-        }else{
+        } else {
             return false;
         }
     },
@@ -79,7 +80,12 @@ const actions = {
 
         //Check if the socket can be used, if not use normal ajax
         if (await dispatch('validateSocket')) {
-            
+
+            //get Categories if none are present
+            if (state.categories.length <= 0) {
+                await rootState.socket.socket.emit('getCategories')
+            }
+
             return state.categoryTree;
 
         } else {
@@ -94,16 +100,17 @@ const actions = {
                 .catch((e) => {
                     console.log(e);
                 })
-            
+
         }
 
     },
     async rename({ state, dispatch, rootState, commit }, data) {
         if (await dispatch('validateSocket')) {
-            
+
             rootState.socket.socket.emit("renameCategory", {
                 _id: data.selected[0],
-                Title: data.newTitle
+                Title: data.newTitle,
+                session: rootState.userData.session
             });
         }
     },
@@ -112,23 +119,31 @@ const actions = {
             if (data.selected[0]) {
                 rootState.socket.socket.emit("createCategory", {
                     _id: data.selected[0],
-                    Title: data.newTitle
+                    Title: data.newTitle,
+                    session: rootState.userData.session
                 });
             } else {
-                rootState.socket.socket.emit("createCategory", { Title: data.newTitle });
+                rootState.socket.socket.emit("createCategory", {
+                    Title: data.newTitle,
+                    session: rootState.userData.session
+                });
             }
         }
     },
     async delete({ state, dispatch, rootState, commit }, data) {
         if (await dispatch('validateSocket')) {
-            rootState.socket.socket.emit("deleteCategory", { _id: data.selected[0] });
+            rootState.socket.socket.emit("deleteCategory", {
+                _id: data.selected[0],
+                session: rootState.userData.session
+            });
         }
     },
     async merge({ state, dispatch, rootState, commit }, data) {
         if (await dispatch('validateSocket')) {
             rootState.socket.socket.emit("mergeCategories", {
                 Category2: { _id: data.selected[0] },
-                Category1: { _id: data.selected[1] }
+                Category1: { _id: data.selected[1] },
+                session: rootState.userData.session
             });
         }
     },
@@ -138,14 +153,15 @@ const actions = {
 
             rootState.socket.socket.emit("appendCategory", {
                 Category2: { _id: data.selected[0] },
-                Category1: { _id: data.selected[1] }
+                Category1: { _id: data.selected[1] },
+                session: rootState.userData.session
             });
         }
     },
     buildTree({ state, dispatch, rootState, commit }) {
 
-       
-        console.log('tree build')
+
+
         var tree = appendChilds(
             state.categories.filter(c => {
                 return !c.Parent && !c.Link;
@@ -168,7 +184,7 @@ const actions = {
         }
 
         commit('setCategoryTree', tree);
-        
+
     }
 }
 

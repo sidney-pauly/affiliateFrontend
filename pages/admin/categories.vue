@@ -22,7 +22,7 @@
                 </div>
     
                 
-
+                <!-- Rename -->
                 <div v-if="selected.length == 1" class="divider">
                     <h4>Rename Category</h4>
                     <div class="input-group mb-3">
@@ -33,13 +33,15 @@
                     </div>
                     <p></p>
                 </div>
-
+                
+                <!-- Delete -->
                 <div v-if="selected.length == 1" class="divider">
                     <h4>Delete Category</h4>
                     <button class="btn btn-danger" @click="Delete">Delete</button>
                     <p></p>
                 </div>
 
+                <!-- Merge -->
                 <div v-if="selected.length == 2" class="divider">
                     <h4>Merge Categories</h4>
                     <p><b>{{getCategoryByIndex(1).Title}} + {{getCategoryByIndex(0).Title}} = {{getCategoryByIndex(1).Title}}</b></p>
@@ -48,6 +50,7 @@
                 </div>
                 <br>
 
+                <!-- Append -->
                 <div v-if="selected.length == 2" class="divider">
                     <h4>Append Categoriy</h4>
                     <p><b>{{getCategoryByIndex(1).Title + ' ← '}} {{getCategoryByIndex(0).Title}}</b></p>
@@ -90,9 +93,15 @@ export default {
     }),
     
     getCategoryByIndex: function(i) {
-      return this.$store.state.categories.categories.find(
+      var cat =  this.$store.state.categories.categories.find(
         c => c._id == this.selected[i]
       );
+      if(cat){
+        return cat;
+      }
+      else {
+        return {};
+      }
     },
     modifieSelected: function(value) {
       this.selected = value

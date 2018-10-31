@@ -1,7 +1,7 @@
 <template lang="html">
     <div>
-        <b-input-group>
-          <b-form-input v-model="$store.state.productFilter.filter.query" type="text" placeholder="Produktname"/>
+        <b-input-group @keyup.enter="search">
+          <b-form-input v-model="$store.state.productFilter.filter.query" type="text" placeholder="Produktname" />
           <b-input-group-append>
             <b-btn variant="white" @click="search">Suchen</b-btn>
           </b-input-group-append>
