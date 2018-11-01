@@ -1,4 +1,5 @@
 const pkg = require('./package')
+import config from './config'
 
 module.exports = {
   mode: 'universal',
@@ -7,11 +8,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: config.title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: 'Vergleichsseite' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

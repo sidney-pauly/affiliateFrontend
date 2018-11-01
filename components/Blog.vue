@@ -2,7 +2,8 @@
 <template lang="html">
   <div >
     <h1>{{blog.Title}}</h1>
-    <div v-html="blog.Text"></div>
+    <div v-if="blog.TextShort" v-html="blog.TextShort"></div>
+    <div v-if="blog.Text && !short" v-html="blog.Text"></div>
     <hr class="my-4">
 
     <div class="row">
@@ -23,7 +24,8 @@ import product from "@/components/products/Product";
 export default {
   props:{
     blog: Object,
-    maxProducts: Number
+    maxProducts: Number,
+    short: Boolean
   },
   components: {
     product

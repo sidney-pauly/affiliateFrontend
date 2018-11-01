@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container">
+    <div class="container-fluids">
       <div class="text-center p-5">
         <h1 class="title">{{$store.state.website.title}}</h1>
       </div>
@@ -14,9 +14,11 @@
 
         
       </div>
-      <div class="jumbotron" v-for="blog in getBlogs()" :key="blog._id">
-        <Blog  :blog="blog" :maxProducts="4"/>
-        <b-button :to="'/blog/' + blog._id"  v-if="blog.products.length > 0">Mehr Produkte</b-button>
+      <div class="jumbotron" v-for="blog in blogs" :key="blog._id">
+          <Blog  :blog="blog" :maxProducts="4" short/>
+
+            <b-button :to="'/blog/' + blog._id">Mehr ...</b-button>
+
       </div>
       
 
@@ -33,8 +35,8 @@ export default {
     Blog,
     simpleProductFilter
   },
-  methods: {
-    getBlogs () {
+  computed: {
+    blogs () {
       //return ranked blogs
       return this.$store.state.website.blogs.sort( (a,b) => {
         return a.Rank - b.Rank;
@@ -69,6 +71,21 @@ export default {
   font-weight: 300;
   color: #35495e;
   letter-spacing: 1px;
+}
+
+.container-fluids {
+  @include media-breakpoint-up(md) {
+    margin-left: 5vh;
+    margin-right: 5vh;
+  }
+  @include media-breakpoint-up(lg) {
+    margin-left: 10vh;
+    margin-right: 10vh;
+  }
+  @include media-breakpoint-up(xl) {
+    margin-left: 15vh;
+    margin-right: 15vh;
+  }
 }
 
 .subtitle {

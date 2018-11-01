@@ -104,7 +104,8 @@ const actions = {
 
             rootState.socket.socket.emit("createBlog", {
                 website: config.title,
-                blog: data
+                blog: data,
+                session: rootState.userData.session
             });
         }
     },
@@ -113,7 +114,8 @@ const actions = {
 
             rootState.socket.socket.emit("modifyBlog", {
                 website: config.title,
-                blog: data
+                blog: data,
+                session: rootState.userData.session
             });
         }
     },
@@ -122,7 +124,8 @@ const actions = {
 
             rootState.socket.socket.emit("deleteBlog", {
                 website: config.title,
-                blog: data
+                blog: data,
+                session: rootState.userData.session
             });
         }
     }

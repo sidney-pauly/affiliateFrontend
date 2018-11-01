@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="row divider">
-          <div class="col-5 w-100">
+          <div class="col-5 w-100" id="toolbar">
             
             <div v-if="selected" class="p-5">
               <h4>Edit Blog</h4>
@@ -27,6 +27,12 @@
               <div class="divider">
                 <h5>Title</h5>
                 <input type="text" class="form-control" placeholder="Category Name" v-model="selected.Title" />
+                <br>
+              </div>
+
+              <div class="divider">
+                <h5>Short text (html)</h5>
+                <textarea type="text" class="form-control" placeholder="Text" aria-label="name" v-model="selected.TextShort" />
                 <br>
               </div>
 
@@ -52,12 +58,16 @@
             </div>
 
           </div>
-          <div class="col-7 p-5" v-if="selected">
+          <div class="col-7 p-5" v-if="selected" id="preview">
 
-              <h5>Preview</h5>
+              <h5 class="inline">Preview</h5>
+              <b-form-radio-group  id="radios2" v-model="short" buttons>
+                <b-form-radio :value="false">Long</b-form-radio>
+                <b-form-radio :value="true">Short</b-form-radio>
+              </b-form-radio-group>
               <div class="">
-                <div class="preview p-2">
-                  <blog :blog="selected" />
+                <div class= "p-2 bg-light" id="previewElem">
+                  <blog :blog="selected" :short="short"/>
                 </div>
                 
                 <br>
@@ -81,13 +91,14 @@ export default {
   data() {
     return {
       selected: undefined,
-      newTitle: ""
+      newTitle: "",
+      short: false
     };
   },
   watch: {
     selected: {
-      handler () {
-        if(this.selected){
+      handler() {
+        if (this.selected) {
           this.modify();
         }
       },
@@ -102,6 +113,7 @@ export default {
     }),
     modifyCategory(categories) {
       this.selected.Category = categories[0];
+      this.modify();
     },
     create() {
       this.dispatchCreate({ Title: this.newTitle });
@@ -120,11 +132,14 @@ export default {
 .divider {
   margin-top: 10px;
 }
-.preview {
+#previewElem {
   border: 2px;
   border-style: solid;
   border-radius: 5px;
-  background-color: #dddddd;
+}
+#toolbar {
+  overflow-y: scroll;
+  
 }
 </style>
  

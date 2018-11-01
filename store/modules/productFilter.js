@@ -30,11 +30,10 @@ const mutations = {
 
 // actions
 const actions = {
-    async filterProducts ({state, dispatch, rootState, commit}) {
+    async validateSocket({ state, dispatch, rootState, commit }) {
 
-        //Check if the socket can be used, if not use normal ajax
-        if(await dispatch('socket/validateSocket', null, { root: true })){
-
+        if (await dispatch('socket/validateSocket', null, { root: true })) {
+           
 
             //Define what happens when product is recived
             if(!rootState.socket.socket._callbacks.$product){
@@ -43,7 +42,30 @@ const actions = {
                     state.products.push(data);
                 });
               }
-      
+
+               //Define what happens when a product update happens
+              if (!rootState.socket.socket._callbacks.$modifyBlog) {
+                rootState.socket.socket.on("modifyProduct", function (data) {
+                    var i = state.blogs.findIndex(p => p._id == data._id);
+
+                    if (i >= 0) {
+                        state.products[i] = data;
+                    }
+
+                });
+            }
+
+
+            return true;
+        } else {
+            return false;
+        }
+    },
+    async filterProducts ({state, dispatch, rootState, commit}) {
+
+        //Check if the socket can be used, if not use normal ajax
+        if(await dispatch('validateSocket')){
+
             rootState.socket.socket.emit('getProducts', state.filter);
       
             state.products = [];
@@ -64,6 +86,15 @@ const actions = {
 
         }
         
+    },
+    async modify({ state, dispatch, rootState, commit }, data) {
+        if (await dispatch('validateSocket')) {
+
+            rootState.socket.socket.emit("modifyProduct", {
+                products: data,
+                session: rootState.userData.session
+            });
+        }
     }
 }
 
