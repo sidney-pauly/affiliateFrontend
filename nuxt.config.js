@@ -1,5 +1,4 @@
 const pkg = require('./package')
-import config from './config'
 
 module.exports = {
   mode: 'universal',
@@ -8,7 +7,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: config.title,
+    title: 'Vergleichsseite',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
