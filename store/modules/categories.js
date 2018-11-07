@@ -1,5 +1,4 @@
-import { Store } from "vuex";
-import config from '@/config'
+
 import axios from 'axios'
 
 // initial state
@@ -92,7 +91,7 @@ const actions = {
 
 
             //Fetch data from backend
-            return axios.get(config.apiURL + '/categories')
+            return axios.get(rootState.apiUrl + '/categories')
                 .then((res) => {
                     state.categories = res.data;
                     dispatch('buildTree')

@@ -1,5 +1,4 @@
 import { Store } from "vuex";
-import config from '@/config'
 import axios from 'axios'
 
 // initial state
@@ -28,12 +27,11 @@ const actions = {
     async login({ state, dispatch, rootState, commit }) {
 
 
-
         try {
             //Fetch data from backend
             var res = await axios({
                 method: 'post',
-                url: config.apiURL + '/login',
+                url: rootState.apiUrl + '/login',
                 data: {
                     username: state.username,
                     password: state.password

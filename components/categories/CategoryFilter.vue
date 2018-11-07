@@ -81,6 +81,10 @@ export default {
       }
 
       this.filterCategoryTree();
+
+      //Emit selected so that parent updates
+      this.$emit("selected", this.selected);
+      
     },
     modifyTree(childCategory) {
       var vm = this;

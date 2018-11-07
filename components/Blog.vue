@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import config from "@/config";
 import product from "@/components/products/Product";
 
 export default {

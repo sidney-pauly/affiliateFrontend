@@ -57,20 +57,29 @@
     
     <nuxt/>
 
-    <!-- Bottom disclamers and crawler info -->
+    <div class="divider"></div>
+
+    <div class="container text-center">
+      <!-- Bottom disclamers and crawler info -->
     <ul class="nav justify-content-center">
       <li class="nav-item">
         <a class="nav-link" href="/products/all">Alle Produkte</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/products/all">Impressum</a>
+        <a class="nav-link" href="/impressum">Impressum</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/products/all">Datenschutz</a>
+        <a class="nav-link" href="/datenschutz">Datenschutz</a>
       </li>
     </ul>
     <br>
     <br>
+    <p>Mologico GmbH, Kalbacher Hauptstrasse 42a 60437 Frankfurt,
+
+          eingetragen beim Amstgericht Frankfurt am Main HRB 105280, Geschäftsführer
+          Markus Pauly</p>
+    </div>
+    
   </div>
 </template>
 

@@ -1,10 +1,11 @@
 
-import config from '@/config'
+
 import axios from 'axios'
 
 // initial state
 const state = {
     title: 'Placeholder',
+    namespace: 'affiliate.sc-apps.net',
     blogs: []
 }
 
@@ -22,14 +23,14 @@ const mutations = {
 // actions
 const actions = {
     async getWebsite({ state, dispatch, rootState, commit }) {
-
+        
 
         //Fetch data from backend
         var req = await axios({
             method:'get',
-            url: config.apiURL + '/website',
+            url: rootState.apiUrl + '/website',
             params: {
-                title: config.title
+                namespace: state.namespace
             }
         })
 
@@ -44,7 +45,7 @@ const actions = {
                 
                 var request = await axios({
                     method:'get',
-                    url: config.apiURL + '/productsOfCategory',
+                    url: rootState.apiUrl + '/productsOfCategory',
                     params: {
                         category: b.Category
                     }
@@ -65,6 +66,14 @@ const actions = {
 
         if (await dispatch('socket/validateSocket', null, { root: true })) {
             //Define what happens when a category is recived
+
+            if (!rootState.socket.socket._callbacks.$modifyWebsite) {
+                rootState.socket.socket.on("modifyWebsite", function (data) {
+                    state.Title = data.Title
+                    
+
+                });
+            }
 
             if (!rootState.socket.socket._callbacks.$newBlog) {
                 rootState.socket.socket.on("newBlog", function (data) {
@@ -99,11 +108,21 @@ const actions = {
             return false;
         }
     },
+    async modifyWebsite({ state, dispatch, rootState, commit }, data) {
+        if (await dispatch('validateSocket')) {
+
+            rootState.socket.socket.emit("modifyWebsite", {
+                namespace: state.namespace,
+                website: state,
+                session: rootState.userData.session
+            });
+        }
+    },
     async create({ state, dispatch, rootState, commit }, data) {
         if (await dispatch('validateSocket')) {
 
             rootState.socket.socket.emit("createBlog", {
-                website: config.title,
+                website: state.title,
                 blog: data,
                 session: rootState.userData.session
             });
@@ -113,7 +132,7 @@ const actions = {
         if (await dispatch('validateSocket')) {
 
             rootState.socket.socket.emit("modifyBlog", {
-                website: config.title,
+                website: state.title,
                 blog: data,
                 session: rootState.userData.session
             });
@@ -123,7 +142,7 @@ const actions = {
         if (await dispatch('validateSocket')) {
 
             rootState.socket.socket.emit("deleteBlog", {
-                website: config.title,
+                website: state.title,
                 blog: data,
                 session: rootState.userData.session
             });

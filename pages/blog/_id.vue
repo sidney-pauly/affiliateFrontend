@@ -8,46 +8,25 @@
 
 <script>
 import Blog from "@/components/Blog";
-import config from "@/config";
-import axios from "axios";
 
 export default {
   components: {
     Blog
   },
-  async asyncData({ error, route }) {
-    try {
-      let req = await axios({
-        method: "get",
-        url: config.apiURL + "/blog",
-        params: {
-          website: config.title,
-          id: route.params.id
-        }
-      });
+  computed: {
+    blog: function() {
+      let vm = this;
+      let b = vm.$store.state.website.blogs.find(bb => bb._id == vm.$route.params.id);
 
-      let blog = req.data;
-
-      if (blog.Category) {
-        var request = await axios({
-          method: "get",
-          url: config.apiURL + "/productsOfCategory",
-          params: {
-            category: blog.Category
-          }
-        });
-
-        blog.products = request.data;
+      if(b){
+        return  b ; 
+      } else {
+        throw console.error('not found');
+        
       }
-
-      return { blog: req.data };
-    } catch (er) {
-      error({
-        statusCode: 404,
-        message: "Sorry die seite wurde nicht gefunden"
-      });
     }
   }
+
 };
 </script>
 

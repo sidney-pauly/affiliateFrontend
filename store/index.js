@@ -17,6 +17,7 @@ const createStore = () => {
     state: () => ({
       cookies: false,
       showGDPR: true,
+      apiUrl: 'http://localhost:3001',
       status: {
         text: '',
         type: 'success',
@@ -29,7 +30,15 @@ const createStore = () => {
 
     },
     actions: {
-      async nuxtServerInit({ dispatch }) {
+      async nuxtServerInit({ state, dispatch }, {req }) {
+       
+        //Set api url
+        state.apiUrl = process.env.API_URL
+
+        //Setup namespace
+        state.website.namespace = req.headers.host
+
+        //Get default data from server
         await dispatch('website/getWebsite')
         await dispatch('categories/getCategories')
       },

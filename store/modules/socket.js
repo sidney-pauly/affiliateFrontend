@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import config from '@/config'
+
 
 // initial state
 const state = {
@@ -33,7 +33,7 @@ const actions = {
             if(state.socket){
                 return true
             } else {
-                commit('setSocket', await io.connect(config.socketURL));
+                commit('setSocket', await io.connect(rootState.apiUrl));
 
                 if (!state.socket._callbacks.$errorMsg) {
                     state.socket.on("errorMsg", function (data) {

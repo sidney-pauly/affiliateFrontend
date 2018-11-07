@@ -1,5 +1,5 @@
 import { Store } from "vuex";
-import config from '@/config'
+
 import axios from 'axios'
 
 // initial state
@@ -61,6 +61,17 @@ const actions = {
             return false;
         }
     },
+    async getAllProducts ({state, dispatch, rootState, commit}) {
+
+        var res = await axios({
+            method:'get',
+            url: rootState.apiUrl + '/allProducts',
+        })
+
+        state.products = res.data;
+        return res.data;
+
+    },
     async filterProducts ({state, dispatch, rootState, commit}) {
 
         //Check if the socket can be used, if not use normal ajax
@@ -75,7 +86,7 @@ const actions = {
             state.loading = true;
 
             //Fetch data from backend
-            return axios.post(config.apiURL + '/searchProducts', state.filter)
+            return axios.post(rootState.apiUrl + '/searchProducts', state.filter)
             .then((res) => {
                 state.products = res.data;
                 state.loading = false;

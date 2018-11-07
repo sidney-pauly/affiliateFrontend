@@ -33,7 +33,6 @@
 import axios from 'axios'
 import Listing from '@/components/products/Listing.vue'
 import ImageViewer from '@/components/ImageViewer.vue'
-import config from '@/config'
 
 export default {
   components: {
@@ -41,7 +40,7 @@ export default {
     ImageViewer
   },
   asyncData ({ error, route }) {
-    return axios.get(config.apiURL + '/product?' + 'id=' + route.params.id)
+    return axios.get(process.env.API_URL + '/product?' + 'id=' + route.params.id)
     .then((res) => {
       return { product: res.data }
     })
