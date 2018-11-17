@@ -122,7 +122,7 @@ const actions = {
         if (await dispatch('validateSocket')) {
 
             rootState.socket.socket.emit("createBlog", {
-                website: state.title,
+                namespace: state.namespace,
                 blog: data,
                 session: rootState.userData.session
             });
@@ -132,7 +132,7 @@ const actions = {
         if (await dispatch('validateSocket')) {
 
             rootState.socket.socket.emit("modifyBlog", {
-                website: state.title,
+                namespace: state.namespace,
                 blog: data,
                 session: rootState.userData.session
             });
@@ -142,7 +142,7 @@ const actions = {
         if (await dispatch('validateSocket')) {
 
             rootState.socket.socket.emit("deleteBlog", {
-                website: state.title,
+                namespace: state.namespace,
                 blog: data,
                 session: rootState.userData.session
             });

@@ -2,7 +2,7 @@
 
 <div class="card text-center mb-3 text-dark w-100 h-100" @click="redirect">
   <div class="card-header h-100 big-header bg-white" v-if="productData.Listings[lsitingBiggestImage]">
-    <b-img-lazy v-if="productData.Listings[lsitingBiggestImage].Images[biggestImage]" center  :src="productData.Listings[lsitingBiggestImage].Images[biggestImage].URL"  fluid-grow />
+    <b-img v-if="productData.Listings[lsitingBiggestImage].Images[biggestImage]" center  :src="productData.Listings[lsitingBiggestImage].Images[biggestImage].URL"  fluid-grow />
   </div>
   <div class="card-body align-bottom bg-light">
     <h5 class="card-title">{{productData.Title}}</h5>
@@ -32,13 +32,18 @@ export default {
   },
   methods: {
     getPriceRange: function() {
-      var min = this.productData.Listings.reduce(
+      if(this.productData.Listings.length > 0){
+        var min = this.productData.Listings.reduce(
         (acc, loc) => (acc.Price < loc.Price ? acc : loc)
       );
       var max = this.productData.Listings.reduce(
         (acc, loc) => (acc.Price > loc.Price ? acc : loc)
       );
-      return min.DisplayPrice + "-" + max.DisplayPrice;
+      return min.Price + "€ - " + max.Price + '€';
+      }
+      else {
+        return 'N/A'
+      }
     },
     redirect: function() {
       this.$router.push({

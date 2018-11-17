@@ -12,7 +12,8 @@ const state = {
         categories: []
       },
       products: [],
-      loading: false
+      loading: false,
+      detailProduct: {}
 }
 
 // getters
@@ -37,9 +38,12 @@ const actions = {
 
             //Define what happens when product is recived
             if(!rootState.socket.socket._callbacks.$product){
-                rootState.socket.socket.on('product', function (data) {
+                rootState.socket.socket.on('product', function (data, final) {
                     state.loading = false;
                     state.products.push(data);
+                    if(final){
+                        state.loading = false;
+                    }
                 });
               }
 
@@ -65,10 +69,24 @@ const actions = {
 
         var res = await axios({
             method:'get',
-            url: rootState.apiUrl + '/allProducts',
+            url: rootState.apiUrl + '/allProducts'
         })
 
         state.products = res.data;
+        return res.data;
+
+    },
+    async getProductById ({state, dispatch, rootState, commit}, data) {
+
+        var res = await axios({
+            method:'get',
+            url: rootState.apiUrl + '/product',
+            params: {
+                id: data
+            }
+        })
+
+        state.detailProduct = res.data;
         return res.data;
 
     },
@@ -80,14 +98,16 @@ const actions = {
             rootState.socket.socket.emit('getProducts', state.filter);
       
             state.products = [];
-            state.loading = false;
+            state.loading = true;
         } else {
 
+            state.products = [];
             state.loading = true;
 
             //Fetch data from backend
             return axios.post(rootState.apiUrl + '/searchProducts', state.filter)
             .then((res) => {
+                console.log(res.data)
                 state.products = res.data;
                 state.loading = false;
             })

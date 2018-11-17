@@ -25,6 +25,7 @@
         60437 Frankfurt, eingetragen beim Amstgericht Frankfurt am Main HRB 105280,
         Geschäftsführer Markus Pauly.
         Umsatzsteueridentifikationsnummer: DE306066483
+        
         Vertreten durch: Markus Pauly, Geschäftsführer</p>
 
         <h2>Haftung für Inhalte</h2>

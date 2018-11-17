@@ -39,14 +39,13 @@ export default {
     Listing,
     ImageViewer
   },
-  asyncData ({ error, route }) {
-    return axios.get(process.env.API_URL + '/product?' + 'id=' + route.params.id)
-    .then((res) => {
-      return { product: res.data }
-    })
-    .catch((e) => {
-      error({ statusCode: 404, message: 'product not found: ' + e })
-    })
+  async fetch ({ store, params, route }) {
+    await store.dispatch('productFilter/getProductById', route.params.id);
+  },
+  computed: {
+    product () {
+      return this.$store.state.productFilter.detailProduct;
+    }
   },
   data () {
     return {

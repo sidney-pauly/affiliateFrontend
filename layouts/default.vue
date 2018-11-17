@@ -74,10 +74,7 @@
     </ul>
     <br>
     <br>
-    <p>Mologico GmbH, Kalbacher Hauptstrasse 42a 60437 Frankfurt,
-
-          eingetragen beim Amstgericht Frankfurt am Main HRB 105280, Geschäftsführer
-          Markus Pauly</p>
+    <p>© Mologico GmbH</p>
     </div>
     
   </div>

@@ -12,11 +12,7 @@
         <b-collapse id="collapse1" class="mt-2">
           <b-card>
             
-            <div class="divider p-2">
-              <b-input-group size="sm" prepend="Max Ergebnise">
-              <b-form-input v-model="$store.state.productFilter.filter.maxResults" type="number" placeholder="Anzahl" @keyup.enter="search"/>
-            </b-input-group>
-              </div>
+          
             
               
            <br>

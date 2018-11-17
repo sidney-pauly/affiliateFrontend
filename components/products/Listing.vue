@@ -19,7 +19,7 @@
           </tbody>
         </table>
 
-        <b-button target="_blank" rel="noopener noreferrer" :href="listingData.Deeplink" :block="true">Zum Shop</b-button>
+        <b-button target="_blank" rel="noopener noreferrer" @click="redirect()" :block="true">Zum Shop</b-button>
       </div>
     </div>
     <br>
@@ -28,7 +28,12 @@
 
 <script>
 export default {
-  props: ['listingData']
+  props: ['listingData'],
+  methods: {
+    redirect() {
+      window.location = this.listingData.Deeplink;
+    }
+  }
 }
 </script>
 
