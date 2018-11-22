@@ -3,24 +3,36 @@
     <div class="">
 
 
-      
-      <div class="text-center p-5">
-        <h1 class="title">{{$store.state.website.title}}</h1>
-      </div>
-      
-      <div class="jumbotron">
-        <h1>Produkte suchen</h1>
+      <div class="card card-full border-0 rounded-0">
 
-        <hr class="my-4">
 
-        <simpleProductFilter />
+        <img class="card-img img-full border-0 rounded-0" :src="$store.state.website.LandingImage" alt="" />
+
+
+        <div class="card-img-overlay">
+          <div class="text-center w-100 center">
+            <h1 class="title">{{$store.state.website.title}}</h1>
+          <simpleProductFilter />
+          </div>
+          
+          
+        </div>
 
         
       </div>
-      <div class="jumbotron" v-for="blog in blogs" :key="blog._id">
-          <Blog  :blog="blog" :maxProducts="4" short/>
+      
+      
+      
+      <div  v-for="blog in blogs" :key="blog._id">
 
-            <b-button :to="'/blog/' + blog._id">Mehr ...</b-button>
+        <div class="blog-container">
+
+          <Blog  :blog="blog" :maxProducts="4" short/>
+          
+
+        </div>
+
+          
 
       </div>
       
@@ -52,8 +64,32 @@ export default {
 <style scoped lang="scss">
 @import "~bootstrap/scss/bootstrap";
 
+.blog-container{
+  margin-top: 20vh;
+  margin-bottom: 20vh;
+
+}
+
+.center{
+  margin-top: 20vh;
+}
+
+.card-full{
+  height: 100vh;
+  border-radius: 0px;
+  margin: 0px;
+}
+
+.img-full{
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 
 .title {
+
+  
   @include media-breakpoint-up(xs) {
     font-size: 40px;
   }
@@ -71,9 +107,9 @@ export default {
   }
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
+  text-transform: uppercase;
   font-weight: 300;
-  color: #35495e;
+  color: #dfdfdf;
   letter-spacing: 1px;
 }
 

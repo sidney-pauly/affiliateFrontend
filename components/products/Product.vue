@@ -1,10 +1,10 @@
 <template lang="html">
 
-<div class="card text-center mb-3 text-dark w-100 h-100" @click="redirect">
-  <div class="card-header h-100 big-header bg-white" v-if="productData.Listings[lsitingBiggestImage]">
-    <b-img v-if="productData.Listings[lsitingBiggestImage].Images[biggestImage]" center  :src="productData.Listings[lsitingBiggestImage].Images[biggestImage].URL"  fluid-grow />
+<div class="card text-center mb-3 text-white w-100 h-100" @click="redirect">
+  <div class="card-header bg-white h-100 big-header p-0" v-if="productData.Listings[lsitingBiggestImage]">
+    <img class="img" v-if="productData.Listings[lsitingBiggestImage].Images[biggestImage]" center  :src="productData.Listings[lsitingBiggestImage].Images[biggestImage].URL" />
   </div>
-  <div class="card-body align-bottom bg-light">
+  <div class="card-body align-bottom bg-dark">
     <h5 class="card-title">{{productData.Title}}</h5>
     <p class="card-text">Preis: {{getPriceRange()}}
     </p>
@@ -80,6 +80,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "~bootstrap/scss/bootstrap";
+
+.card{
+  border-style: solid;
+  border-width: 4px;
+  border-color: $dark;
+}
+
+img{
+  max-height: 60vh;
+  object-fit: cover;
+  max-width: 100%;
+}
 
 div.big-header {
   @include media-breakpoint-up(xs) {

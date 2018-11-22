@@ -5,6 +5,9 @@
         <h3>Title</h3>
         <input v-model="$store.state.website.title">
 
+         <h3>Landing image</h3>
+        <input v-model="$store.state.website.LandingImage">
+
         <h3>Theme</h3>
         <input type="color" v-model="$store.state.website.navColor">
 

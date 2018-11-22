@@ -6,7 +6,8 @@ import axios from 'axios'
 const state = {
     title: 'Placeholder',
     namespace: 'affiliate.sc-apps.net',
-    blogs: []
+    blogs: [],
+    LandingImage: ''
 }
 
 // getters
@@ -36,7 +37,7 @@ const actions = {
 
         var website = req.data;
 
-
+        state.LandingImage = website.LandingImage;
         state.title = website.Title;
 
         state.blogs = await Promise.all(website.Blogs.map(async b => {

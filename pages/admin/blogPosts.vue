@@ -14,7 +14,7 @@
             </div>
 
             <div v-for="blog in $store.state.website.blogs" :key="blog._id">
-              {{blog.Title}} <button class="btn btn-warning" @click="selected = blog" >Edit</button> <button class="btn btn-danger" @click="Delete(blog)">Delete</button>
+              {{blog.Title.Content}} <button class="btn btn-warning" @click="selected = blog" >Edit</button> <button class="btn btn-danger" @click="Delete(blog)">Delete</button>
             </div>
           </div>
         </div>
@@ -24,32 +24,66 @@
             <div v-if="selected" class="p-5">
               <h4>Edit Blog</h4>
 
-              <div class="divider">
-                <h5>Title</h5>
-                <input type="text" class="form-control" placeholder="Category Name" v-model="selected.Title" />
+              <b-btn v-b-toggle.collapsetitle class="m-1">Title</b-btn>
+              <b-collapse id="collapsetitle">
+                <customTextEditor :text="selected.Title" />
+              </b-collapse>
+
+              <hr>
+
+              <div class="">
+                <h5>BackgroundColor</h5>
+                <input type="color" class="form-control" aria-label="name" v-model="selected.BackgroundColor" />
                 <br>
               </div>
 
-              <div class="divider">
-                <h5>Short text (html)</h5>
-                <textarea type="text" class="form-control" placeholder="Text" aria-label="name" v-model="selected.TextShort" />
-                <br>
+              <hr>
+
+              <div class="">
+                
+                <b-btn v-b-toggle.collapseimage class="m-1">Image settings</b-btn>
+                <b-collapse id="collapseimage">
+
+                    <h5>Images</h5>
+                  <div v-for="(img, i) in selected.Images" :key="img._id">
+                    <input type="text" v-model="selected.Images[i]"/>
+                    <button class="btn" @click="removeImage(i)">Remove</button>
+                  </div>
+                  
+                  <button class="btn" @click="addImage">Add image</button>
+                    <h5>Image Style</h5>
+                  <b-form-select v-model="selected.ImageStyle" :options="imageStyleOptions" class="mb-3" />
+                  <br>
+                  <h5>Image Height</h5>
+                  {{selected.ImageHeight}}
+                  <input type="range" min="0" max="100" class="form-control" placeholder="rank" v-model="selected.ImageHeight" />
+                </b-collapse>
+                
               </div>
 
-              <div class="divider">
-                <h5>Text (html)</h5>
-                <textarea type="text" class="form-control" placeholder="Text" aria-label="name" v-model="selected.Text" />
-                <br>
+              <hr>
+
+              <div class="">
+                <b-btn v-b-toggle.collapsetext class="m-1">Text</b-btn>
+                <b-collapse id="collapsetext">
+                  <customTextEditor :text="selected.Text" />
+                </b-collapse>
+                
+
               </div>
 
-              <div class="divider">
+              <hr>
+
+              <div class="">
                 <h5>Rank</h5>
                 <input type="number" class="form-control" placeholder="rank" v-model="selected.Rank" />
-                <br>
+
               </div>
 
-              <div class="divider">
-                <h5>Category</h5>
+              <hr>
+
+              <div class="">
+                <h5>Product Category</h5>
                 <categoryFilter :maxSelected="1" @selected="modifyCategory"/>
                 <br>
               </div>
@@ -61,13 +95,9 @@
           <div class="col-7 p-5" v-if="selected" id="preview">
 
               <h5 class="inline">Preview</h5>
-              <b-form-radio-group  id="radios2" v-model="short" buttons>
-                <b-form-radio :value="false">Long</b-form-radio>
-                <b-form-radio :value="true">Short</b-form-radio>
-              </b-form-radio-group>
               <div class="">
                 <div class= "p-2 bg-light" id="previewElem">
-                  <blog :blog="selected" :short="short"/>
+                  <blog :blog="selected"/>
                 </div>
                 
                 <br>
@@ -80,19 +110,22 @@
 
  <script>
 import categoryFilter from "@/components/categories/CategoryFilter.vue";
+import customTextEditor from "@/components/text/CustomTextEditor.vue";
 import Blog from "@/components/Blog";
 import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     categoryFilter,
-    Blog
+    Blog,
+    customTextEditor
   },
   data() {
     return {
       selected: undefined,
       newTitle: "",
-      short: false
+      imageStyleOptions: ['ImageAfterTitle', 'ImageBeforeTitle', 'ImageAfterText', 'TitleOverlay', 'TextOverlay']
+     
     };
   },
   watch: {
@@ -116,19 +149,31 @@ export default {
       this.modify();
     },
     create() {
-      this.dispatchCreate({ Title: this.newTitle });
+      this.dispatchCreate({ Title: {Content: this.newTitle}, Text: {Content: ' '} });
     },
     modify() {
       this.dispatchModify(this.selected);
     },
     Delete(blog) {
       this.dispatchDelete(blog);
+    },
+    addImage(){
+      this.selected.Images.push('')
+    },
+    removeImage(i){
+      if(!this.selected.Images){
+        this.selected.Images = []
+      }
+      this.selected.Images.splice(i, 1)
     }
   }
 };
 </script>
 
  <style lang="scss" scoped>
+
+
+
 .divider {
   margin-top: 10px;
 }

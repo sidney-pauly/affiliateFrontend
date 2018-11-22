@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-dark text-white h-100 hide-overlap-img">
+  <div class="">
     <div class="container-fluid">
       <br>
       <br>

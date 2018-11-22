@@ -2,7 +2,7 @@
   <div >
     
     <div class="sticky-top">
-      <b-navbar toggleable="md" type="dark" variant="info" >
+      <b-navbar toggleable="md" type="dark" variant="dark" >
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
         <b-navbar-brand to="/">{{$store.state.website.title}}</b-navbar-brand>
@@ -73,11 +73,11 @@
       </b-alert>
     </div>
     
-    <nuxt/>
-
-    <div class="divider"></div>
-
-    <div class="container text-center">
+    <div class="container-main">
+      <nuxt/>
+    </div>
+    
+    <div class="text-center bg-dark text-white p-5">
       <!-- Bottom disclamers and crawler info -->
     <ul class="nav justify-content-center">
       <li class="nav-item">
@@ -90,8 +90,7 @@
         <a class="nav-link" href="/datenschutz">Datenschutz</a>
       </li>
     </ul>
-    <br>
-    <br>
+    <hr class="my-5">
     <p>© Mologico GmbH</p>
     </div>
     
@@ -133,6 +132,10 @@ html {
 *:after {
   box-sizing: border-box;
   margin: 0;
+}
+
+.container-main{
+  min-height: 70vh;
 }
 
 .button--green {

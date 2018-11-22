@@ -8,7 +8,11 @@
            
       <div class="text-dark">
         <br>
-        <b-btn v-b-toggle.collapse1 variant="outline-light" block class="text-left">Erweiterte Suche</b-btn>
+        <span class="text-center">
+
+          <b-btn v-b-toggle.collapse1 variant="outline-dark" block >Erweiterte Suche</b-btn>
+        </span>
+        
         <b-collapse id="collapse1" class="mt-2">
           <b-card>
             
@@ -30,7 +34,7 @@
       
 
       <br>
-      <b-btn variant="white" block @click="search">Suchen</b-btn>
+      <b-btn variant="outline-dark" block @click="search">Suchen</b-btn>
       
     </div>
 
