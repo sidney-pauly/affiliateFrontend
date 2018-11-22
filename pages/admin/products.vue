@@ -26,7 +26,7 @@
                 </b-form-radio-group>
                 
                 <!-- Single item Edit -->
-                <div v-if="single && selected[0]">
+                <div v-if="single && selected.length > 0">
 
                   <!-- Details -->
                   <div class="divider">
@@ -47,7 +47,7 @@
 
                   <div class="divider">
                     <h5>Category</h5>
-                    <categoryFilter :maxSelected="1" @selected="modifyCategory"/>
+                    <categoryFilter :maxSelected="1" @selected="modifyCategory" :initialSelected="[selected[0].Category]"/>
                     <br>
                   </div>
 

@@ -26,6 +26,24 @@
         </b-collapse>
       </b-navbar>
 
+      <b-navbar toggleable="md" type="dark" variant="danger" v-if="$store.state.userData.session.Level == 0">
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+
+        <b-navbar-brand to="/admin">Admin Tools</b-navbar-brand>
+
+        <b-collapse is-nav id="nav_collapse">
+
+          <b-navbar-nav>
+            <b-nav-item to="/admin/blogPosts">Blogs</b-nav-item>
+            <b-nav-item to="/admin/categories">Kategorien managen</b-nav-item>
+            <b-nav-item to="/admin/products">Produkte managen</b-nav-item>
+            <b-nav-item to="/admin/website">Generrele Einstellungen</b-nav-item>
+          </b-navbar-nav>
+
+
+        </b-collapse>
+      </b-navbar>
+
       <!-- GDPR opt in -->
       <b-alert 
       variant="secondary" 
@@ -90,7 +108,7 @@ export default {
   methods: {
     GDPR: function(){
       this.$store.state.showGDPR = false;
-      this.$store.state.cookies = true;
+      this.$store.dispatch('setCookies', true);
     }
   }
 }

@@ -1,6 +1,9 @@
 <template>
 
-    <div class="container-fluids">
+    <div class="">
+
+
+      
       <div class="text-center p-5">
         <h1 class="title">{{$store.state.website.title}}</h1>
       </div>
@@ -49,6 +52,7 @@ export default {
 <style scoped lang="scss">
 @import "~bootstrap/scss/bootstrap";
 
+
 .title {
   @include media-breakpoint-up(xs) {
     font-size: 40px;
@@ -73,7 +77,7 @@ export default {
   letter-spacing: 1px;
 }
 
-.container-fluids {
+.container-fluid {
   @include media-breakpoint-up(md) {
     margin-left: 5vh;
     margin-right: 5vh;

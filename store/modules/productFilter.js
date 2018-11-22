@@ -9,7 +9,8 @@ const state = {
         maxResults: 20,
         fast: false,
         category: undefined,
-        categories: []
+        categories: [],
+        page: 1
       },
       products: [],
       loading: false,
@@ -50,7 +51,6 @@ const actions = {
                //Define what happens when a product update happens
               if (!rootState.socket.socket._callbacks.$modifyBlog) {
                 rootState.socket.socket.on("modifyProduct", function (data) {
-                    var i = state.blogs.findIndex(p => p._id == data._id);
 
                     if (i >= 0) {
                         state.products[i] = data;
@@ -90,25 +90,38 @@ const actions = {
         return res.data;
 
     },
-    async filterProducts ({state, dispatch, rootState, commit}) {
+    async filterProducts ({state, dispatch, rootState, commit}, keepProducts) {
 
         //Check if the socket can be used, if not use normal ajax
         if(await dispatch('validateSocket')){
 
             rootState.socket.socket.emit('getProducts', state.filter);
-      
-            state.products = [];
+            
+            if(!keepProducts){
+                state.products = [];
+            }
+            
             state.loading = true;
         } else {
 
-            state.products = [];
+            if(!keepProducts){
+                state.products = [];
+            }
+
             state.loading = true;
 
             //Fetch data from backend
             return axios.post(rootState.apiUrl + '/searchProducts', state.filter)
             .then((res) => {
                 console.log(res.data)
-                state.products = res.data;
+
+                if(keepProducts){
+                    state.products = state.products.concat(res.data);
+                } else {
+                    state.products = res.data;
+                }
+
+                
                 state.loading = false;
             })
             .catch((e) => {

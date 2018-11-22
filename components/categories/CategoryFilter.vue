@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <div class="text-left">
 
         <div class="input-group mb-3">
@@ -29,7 +29,8 @@ export default {
     maxSelected: Number,
     includeChildren: Boolean,
     clear: Number,
-    admin: Boolean
+    admin: Boolean,
+    initialSelected: {type: Array, default: () => []}
   },
   components: {
     categoryChild
@@ -158,6 +159,8 @@ export default {
     }
   },
   mounted: async function() {
+    console.log(this.initialSelected)
+    this.selected = this.initialSelected
     var vm = this;
     await vm.$store.dispatch("categories/getCategories");
     this.filterCategoryTree(vm.$store.state.categories.categoryTree);

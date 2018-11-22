@@ -75,13 +75,17 @@ const actions = {
             return false;
         }
     },
-    async getCategories({ state, dispatch, rootState, commit }) {
+    async getCategories({ state, dispatch, rootState, commit }, isServer) {
 
         //Check if the socket can be used, if not use normal ajax
-        if (await dispatch('validateSocket')) {
+        if (await dispatch('validateSocket') && !isServer) {
+
+            
 
             //get Categories if none are present
             if (state.categories.length <= 0) {
+
+
                 await rootState.socket.socket.emit('getCategories')
             }
 

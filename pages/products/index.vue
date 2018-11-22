@@ -14,7 +14,14 @@
         <div v-if="products.length <= 0 && !loading">
           <h2> Keine Produkte gefunden :(</h2>
         </div>
+        
       </div>
+      <div v-if="products.length > 0 && !loading" class="p-5">
+          <b-btn block variant="success" @click="nextPage">Mehr Produkte</b-btn>
+          <br>
+          <br>
+          <br>
+        </div>
       <div v-if="loading" class="text-center">
         <img src="/loading.svg" alt="loader">
       </div>
@@ -40,7 +47,10 @@ export default {
 
   }),
   methods: {
-
+    nextPage () {
+      this.$store.state.productFilter.filter.page++;
+      this.$store.dispatch('productFilter/filterProducts', true)
+    }
   }
 }
 </script>

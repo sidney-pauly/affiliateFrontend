@@ -4,6 +4,8 @@ import productFilter from './modules/productFilter'
 import categories from './modules/categories'
 import website from './modules/website'
 import userData from './modules/userData'
+import Cookies from 'js-cookie'
+import cookie from 'cookie'
 
 const createStore = () => {
   return new Vuex.Store({
@@ -38,9 +40,35 @@ const createStore = () => {
         //Setup namespace
         state.website.namespace = req.headers.host
 
+        //Get cookies
+        let cookies = {};
+      
+        if(req.headers.cookie){
+          cookies = cookie.parse(req.headers.cookie);
+        }
+        
+        
+        //Set relevant user data from cookies
+        if(cookies.cookiesAllowed){
+          state.cookies = JSON.parse(cookies.cookiesAllowed)
+        }
+
+        if(state.cookies){
+          state.showGDPR = false;
+        }
+        
+
         //Get default data from server
         await dispatch('website/getWebsite')
-        await dispatch('categories/getCategories')
+        //await dispatch('categories/getCategories', true)
+      },
+      setCookies ({state}, newCookies) {
+        state.cookies = newCookies;
+        
+        //Create cookie with cookie allowed
+        if(newCookies){
+          Cookies.set('cookiesAllowed', 'true', { expires: 365});
+        }
       },
       async setStatus({state}, newStatus){
         console.log(newStatus)
